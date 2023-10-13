@@ -32,15 +32,18 @@ const MessageStyles = styled.p`
 `;
 
 interface Props {
-    user: UserType;
+    notification: UserType;
 }
 
-function Notification({ user }: Props) {
+function Notification({ notification }: Props) {
     return (
         <NotificationStyles>
-            <PictureStyles src={user.pictures.small} alt="Profile picture" />
+            <PictureStyles
+                src={notification.pictures.small}
+                alt="Profile picture"
+            />
             <TextStyles>
-                <p>{user.username}</p>
+                <p>{notification.username}</p>
                 <MessageStyles>Has gone live - watch now</MessageStyles>
             </TextStyles>
             <img src={liveIcon} alt="" />

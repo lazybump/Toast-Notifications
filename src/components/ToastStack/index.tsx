@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { UserType } from '../../types';
 import Notification from '../Notification';
+import { useEffect, useState } from 'react';
 
 const Styles = styled.div`
     position: fixed;
@@ -9,16 +10,37 @@ const Styles = styled.div`
     z-index: 10;
 `;
 
-interface Props {
-    users: UserType[];
-}
+function ToastStack() {
+    const [notifications, setNotifications] = useState<UserType[]>([]);
 
-function ToastStack({ users }: Props) {
+    useEffect(() => {
+        fetch('https://api.mixcloud.com/spartacus/following?limit=10')
+            .then((response) => response.json())
+            .then((result) => {
+                setNotifications(result.data);
+            });
+    }, []);
+
+    useEffect(() => {
+        const removeNotification = (key: string) => {
+            setNotifications((prev) =>
+                prev.filter((notification) => notification.key !== key)
+            );
+        };
+        notifications.forEach((notification, index) => {
+            setTimeout(() => {
+                removeNotification(notification.key);
+            }, 5000);
+        });
+
+        console.log('USE EFFECT HAS RAN');
+    });
+
     return (
         <div>
             <Styles>
-                {users.map((user, index) => (
-                    <Notification key={index} user={user} />
+                {notifications.map((notification, index) => (
+                    <Notification key={index} notification={notification} />
                 ))}
             </Styles>
         </div>
