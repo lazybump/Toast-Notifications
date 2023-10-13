@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Notification from './components/Notification';
 import { UserType, PicturesType } from './types';
 import ToastStack from './components/ToastStack';
+import './App.css';
 
 function App() {
     const [users, setUsers] = useState<UserType[]>([]);

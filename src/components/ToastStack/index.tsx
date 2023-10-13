@@ -4,7 +4,7 @@ import Notification from '../Notification';
 
 const Styles = styled.div`
     position: fixed;
-    top: 20px;
+    top: 0px;
     right: 20px;
     z-index: 10;
 `;
