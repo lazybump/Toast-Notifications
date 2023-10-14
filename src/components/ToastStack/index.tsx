@@ -3,7 +3,7 @@ import { UserType } from '../../types';
 import Notification from '../Notification';
 import { useEffect, useState } from 'react';
 
-const Styles = styled.div`
+const Styles = styled.ul`
     position: fixed;
     top: 0px;
     right: 20px;
@@ -27,23 +27,19 @@ function ToastStack() {
                 prev.filter((notification) => notification.key !== key)
             );
         };
-        notifications.forEach((notification, index) => {
+        notifications.forEach((notification) => {
             setTimeout(() => {
                 removeNotification(notification.key);
             }, 5000);
         });
-
-        console.log('USE EFFECT HAS RAN');
     });
 
     return (
-        <div>
-            <Styles>
-                {notifications.map((notification, index) => (
-                    <Notification key={index} notification={notification} />
-                ))}
-            </Styles>
-        </div>
+        <Styles>
+            {notifications.map((notification, index) => (
+                <Notification key={index} notification={notification} />
+            ))}
+        </Styles>
     );
 }
 

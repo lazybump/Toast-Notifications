@@ -3,7 +3,7 @@ import { UserType } from '../../types';
 import liveIcon from '../../assets/live.svg';
 import closeBtn from '../../assets/close.svg';
 
-const NotificationStyles = styled.div`
+const NotificationStyles = styled.li`
     background-color: #a7d9ec;
     width: 300px;
     padding: 10px;
