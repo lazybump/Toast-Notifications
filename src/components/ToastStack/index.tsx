@@ -3,11 +3,12 @@ import { UserType } from '../../types';
 import Notification from '../Notification';
 import { useEffect, useState } from 'react';
 
-const Styles = styled.ul`
+const ToastStackStyles = styled.ul`
     position: fixed;
-    top: 0px;
+    top: 16px;
     right: 20px;
     z-index: 10;
+    border: 2px solid green;
 `;
 
 function ToastStack() {
@@ -21,25 +22,22 @@ function ToastStack() {
             });
     }, []);
 
-    useEffect(() => {
-        const removeNotification = (key: string) => {
-            setNotifications((prev) =>
-                prev.filter((notification) => notification.key !== key)
-            );
-        };
-        notifications.forEach((notification) => {
-            setTimeout(() => {
-                removeNotification(notification.key);
-            }, 5000);
-        });
-    });
+    const removeNotification = (key: string) => {
+        setNotifications((prev) =>
+            prev.filter((notification) => notification.key !== key)
+        );
+    };
 
     return (
-        <Styles>
-            {notifications.map((notification, index) => (
-                <Notification key={index} notification={notification} />
+        <ToastStackStyles>
+            {notifications.map((notification) => (
+                <Notification
+                    key={notification.key}
+                    notification={notification}
+                    removeNotification={removeNotification}
+                />
             ))}
-        </Styles>
+        </ToastStackStyles>
     );
 }
 
