@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { UserType } from '../../types';
 import liveIcon from '../../assets/live.svg';
 import closeBtn from '../../assets/close.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const slideIn = keyframes`
     from {
@@ -32,15 +32,19 @@ const NotificationStyles = styled.li`
     padding: 10px;
     margin-bottom: 16px;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     // On appearance
     animation: ${slideIn} 0.25s ease forwards;
     // On disappearance
     &.disappear {
         animation: ${slideOut} 0.25s ease;
     }
+`;
+
+const AnchorStyles = styled.a`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
 `;
 
 const PictureStyles = styled.img`
@@ -53,6 +57,13 @@ const TextStyles = styled.div`
     justify-content: center;
     font-size: 16px;
     font-weight: 500;
+`;
+
+const UsernameStyles = styled.p`
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const MessageStyles = styled.p`
@@ -68,7 +79,8 @@ interface Props {
 function Notification({ notification, removeNotification }: Props) {
     const [isPresent, setIsPresent] = useState(true);
 
-    const handleClose = () => {
+    const handleClose = (event: React.MouseEvent) => {
+        event.preventDefault(); // Prevent the default behavior (e.g., navigation)
         setIsPresent(false);
 
         setTimeout(() => {
@@ -76,20 +88,31 @@ function Notification({ notification, removeNotification }: Props) {
         }, 250);
     };
 
+    useEffect(() => {
+        setTimeout(() => {
+            removeNotification(notification.key);
+        }, 5000);
+    });
+
     return (
         <NotificationStyles className={isPresent ? '' : 'disappear'}>
-            <PictureStyles
-                src={notification.pictures.small}
-                alt="Profile picture"
-            />
-            <TextStyles>
-                <p>{notification.username}</p>
-                <MessageStyles>Has gone live - watch now</MessageStyles>
-            </TextStyles>
-            <img src={liveIcon} alt="live button" />
-            <button onClick={handleClose}>
-                <img src={closeBtn} alt="close notification button" />
-            </button>
+            <AnchorStyles
+                href={`https://www.mixcloud.com/live/${notification.username}`}
+                target="_blank"
+            >
+                <PictureStyles
+                    src={notification.pictures.small}
+                    alt="Profile picture"
+                />
+                <TextStyles>
+                    <UsernameStyles>{notification.username}</UsernameStyles>
+                    <MessageStyles>Has gone live - watch now</MessageStyles>
+                </TextStyles>
+                <img src={liveIcon} alt="live button" />
+                <button onClick={handleClose}>
+                    <img src={closeBtn} alt="close notification button" />
+                </button>
+            </AnchorStyles>
         </NotificationStyles>
     );
 }

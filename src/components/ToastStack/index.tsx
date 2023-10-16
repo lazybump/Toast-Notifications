@@ -7,8 +7,6 @@ const ToastStackStyles = styled.ul`
     position: fixed;
     top: 16px;
     right: 20px;
-    z-index: 10;
-    border: 2px solid green;
 `;
 
 function ToastStack() {
@@ -19,6 +17,9 @@ function ToastStack() {
             .then((response) => response.json())
             .then((result) => {
                 setNotifications(result.data);
+            })
+            .catch((error) => {
+                console.log('ERROR FETCHING DATA:', error);
             });
     }, []);
 
@@ -30,7 +31,7 @@ function ToastStack() {
 
     return (
         <ToastStackStyles>
-            {notifications.map((notification) => (
+            {notifications.slice(0, 3).map((notification) => (
                 <Notification
                     key={notification.key}
                     notification={notification}
