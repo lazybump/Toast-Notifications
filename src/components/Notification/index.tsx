@@ -80,7 +80,7 @@ function Notification({ notification, removeNotification }: Props) {
     const [isPresent, setIsPresent] = useState(true);
 
     const handleClose = (event: React.MouseEvent) => {
-        event.preventDefault(); // Prevent the default behavior (e.g., navigation)
+        event.preventDefault();
         setIsPresent(false);
 
         setTimeout(() => {
@@ -92,7 +92,7 @@ function Notification({ notification, removeNotification }: Props) {
         setTimeout(() => {
             removeNotification(notification.key);
         }, 5000);
-    });
+    }, []);
 
     return (
         <NotificationStyles className={isPresent ? '' : 'disappear'}>
